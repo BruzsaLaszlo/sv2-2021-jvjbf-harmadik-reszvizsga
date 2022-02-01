@@ -4,6 +4,7 @@ import java.time.LocalTime;
 
 public class Bike implements Rentable {
 
+    private static final int PRICE_PER_MINUTE = 15;
     private String id;
     private LocalTime rentingTime;
 
@@ -13,7 +14,7 @@ public class Bike implements Rentable {
 
     @Override
     public int calculateSumPrice(long minutes) {
-        return (int) (minutes * 15);
+        return (int) (minutes * PRICE_PER_MINUTE);
     }
 
     @Override

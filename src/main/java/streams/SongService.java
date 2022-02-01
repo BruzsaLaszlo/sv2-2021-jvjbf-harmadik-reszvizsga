@@ -31,7 +31,7 @@ public class SongService {
     public boolean isPerformerInSong(Song song, String performer) {
         return songs.stream()
                 .filter(s -> s.equals(song))
-                .findFirst().orElseThrow()
+                .findFirst().orElseThrow(() -> new IllegalArgumentException("can not find song"))
                 .getPerformers().stream()
                 .anyMatch(p -> p.equals(performer));
     }

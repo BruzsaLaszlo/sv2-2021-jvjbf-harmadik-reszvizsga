@@ -12,10 +12,9 @@ public class MovieTheatreService {
 
     public void readFromFile(Path path) {
         for (String line : getLinesFromFile(path)) {
-            var data = line.split("-");
-            var dataMovie = data[1].split(";");
+            var data = line.split("[-;]");
             List<Movie> movies = shows.computeIfAbsent(data[0], s -> new ArrayList<>());
-            movies.add(new Movie(dataMovie[0], LocalTime.parse(dataMovie[1])));
+            movies.add(new Movie(data[1], LocalTime.parse(data[2])));
         }
     }
 

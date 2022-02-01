@@ -5,16 +5,16 @@ import java.util.*;
 
 public class RentService {
 
+    private static final int MAX_RENTING_MINUTES = 180;
     private Set<Rentable> rentables = new HashSet<>();
     private Set<User> users = new HashSet<>();
     private Map<Rentable, User> actualRenting = new TreeMap<>();
 
 
     public void registerUser(User user) {
-        if (users.contains(user)) {
+        if (!users.add(user)) {
             throw new UserNameIsAlreadyTakenException("Username is taken!");
         }
-        users.add(user);
     }
 
     public void addRentable(Rentable rentable) {
@@ -34,9 +34,10 @@ public class RentService {
     }
 
     private void validate(User user, Rentable rentable) {
-        if (rentable.getRentingTime() != null
-                || user.getBalance() < rentable.calculateSumPrice(180))
-            throw new IllegalStateException("something wrong");
+        if (rentable.getRentingTime() != null)
+            throw new IllegalStateException("rentable is taken");
+        if (user.getBalance() < rentable.calculateSumPrice(MAX_RENTING_MINUTES))
+            throw new IllegalStateException("not enough money");
     }
 
     public Set<User> getUsers() {
